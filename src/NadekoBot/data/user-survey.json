@@ -1,0 +1,68 @@
+﻿{
+  "initialMessageId": 818513584983507015,
+  "initialChannelId": 390193779287523329,
+  "initialEmoji": "❓",
+  "cancelCommand": "CANCEL",
+  "errorDeleteAfterSecs": 20,
+  "unactionedOutputChannel": 818505045762899990,
+  "unactionedEmbedColor": 55830,
+  "unactionedEmbedTitle": "Verification for %user.fullname%",
+  "actionedOutputChannel": 818507763357450241,
+  "actionedEmbedColor": 55830,
+  "actionedEmbedTitle": "Verification for %user.fullname%",
+  "confirmationMessage": "✅ Your questions have been sent for the review.",
+  "actions": [
+    {
+      "name": "Approve",
+      "emoji": "✅",
+      "removeAction": "None",
+      "message": "Welcome %user.mention%",
+      "channelId": 390193779287523329,
+      "reasonRequired": false,
+      "rolesToAdd": [
+        513968640278921216
+      ],
+      "rolesToRemove": []
+    },
+    {
+      "name": "Approve (18+)",
+      "emoji": "\uD83D\uDD1E",
+      "removeAction": "None",
+      "message": "Welcome %user.mention%",
+      "channelId": 390193779287523329,
+      "reasonRequired": false,
+      "rolesToAdd": [
+        802841464555700274,
+        513968640278921216
+      ],
+      "rolesToRemove": []
+    },
+    {
+      "name": "Reject",
+      "emoji": "❌",
+      "removeAction": "Kick",
+      "message": "",
+      "channelId": null,
+      "reasonRequired": true,
+      "rolesToAdd": [],
+      "rolesToRemove": []
+    }
+  ],
+  "survey": {
+    "embedColor": 55830,
+    "questions": [
+      {
+        "title": "Question 1",
+        "text": "How are you?"
+      },
+      {
+        "title": "Question 2",
+        "text": "How old are you?"
+      },
+      {
+        "title": "Question 3",
+        "text": "What's your favorite animal?"
+      }
+    ]
+  }
+}
