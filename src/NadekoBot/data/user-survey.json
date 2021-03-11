@@ -6,10 +6,9 @@
   "errorDeleteAfterSecs": 20,
   "unactionedOutputChannel": 818505045762899990,
   "unactionedEmbedColor": 55830,
-  "unactionedEmbedTitle": "Verification for %user.fullname%",
+  "unactionedEmbedTitle": "Verification for",
   "actionedOutputChannel": 818507763357450241,
   "actionedEmbedColor": 55830,
-  "actionedEmbedTitle": "Verification for %user.fullname%",
   "confirmationMessage": "✅ Your questions have been sent for the review.",
   "actions": [
     {

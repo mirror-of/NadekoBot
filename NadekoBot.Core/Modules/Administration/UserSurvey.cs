@@ -179,17 +179,23 @@ namespace NadekoBot.Core.Modules.Administration
             {
                 var msg = await channel.GetMessageAsync(messageId) as IUserMessage;
                 msg?.DeleteAfter(3);
-
+                
                 try
                 {
                     if (msg != null)
                     {
                         var embed = msg.Embeds.First().ToEmbedBuilder()
                             .AddField($"{matchingAction.Name} by",
-                                reactionUser.ToString(), false);
+                                reactionUser.Mention, false);
                         
                         if (!string.IsNullOrWhiteSpace(reason))
                         {
+                            var userNotifyEmbed = new EmbedBuilder()
+                                .WithOkColor()
+                                .WithDescription(
+                                    $"Action {matchingAction.Name} has been selected based on your answers.")
+                                .AddField("Reason", reason);
+                            _ = (await user.GetOrCreateDMChannelAsync()).EmbedAsync(userNotifyEmbed);
                             embed.AddField($"Reason for {matchingAction.Name} ({matchingAction.RemoveAction})",
                                 reason);
                         }
@@ -201,10 +207,9 @@ namespace NadekoBot.Core.Modules.Administration
                                 .WithUser(user)
                                 .WithServer(_client, user.Guild)
                                 .Build();
-                            
+
                             await approvalLogChannel.EmbedAsync(embed
-                                .WithColor(ConfigData.ActionedEmbedColor)
-                                .WithTitle(rep.Replace(ConfigData.ActionedEmbedTitle)));
+                                .WithColor(ConfigData.ActionedEmbedColor));
                         }
                         else
                         {
@@ -214,7 +219,7 @@ namespace NadekoBot.Core.Modules.Administration
                 }
                 catch (Exception ex)
                 {
-                    _log.Warn("Failed sending message to actioned approval channel.");
+                    _log.Warn(ex, "Failed sending message to actioned approval channel.");
                 }
                 
                 SocketTextChannel ch;
@@ -228,11 +233,11 @@ namespace NadekoBot.Core.Modules.Administration
                             .WithUser(user)
                             .WithServer(_client, user.Guild)
                             .Build();
-                        await ch.SendConfirmAsync(rep.Replace(matchingAction.Message));
+                        await ch.SendMessageAsync(rep.Replace(matchingAction.Message));
                     }
                     catch (Exception ex)
                     {
-                        _log.Warn("Unable to send message after performing {0} action on {1}", matchingAction.Name, user?.ToString() ?? data.UserId.ToString());
+                        _log.Warn(ex, "Unable to send message after performing {0} action on {1}", matchingAction.Name, user?.ToString() ?? data.UserId.ToString());
                     }
                 }
             }
@@ -260,7 +265,7 @@ namespace NadekoBot.Core.Modules.Administration
                 .Build();
 
             var embed = new EmbedBuilder()
-                .WithTitle(rep.Replace(ConfigData.UnActionedEmbedTitle))
+                .AddField(ConfigData.UnActionedEmbedTitle, user.Mention)
                 .WithColor(ConfigData.UnactionedEmbedColor);
             
             // author stuff
@@ -433,7 +438,7 @@ namespace NadekoBot.Core.Modules.Administration
             }
             catch (Exception ex)
             {
-                _log.Error("Failed creating user dm channel or sending a question.");
+                _log.Error(ex, "Failed creating user dm channel or sending a question.");
             }
         }
     }

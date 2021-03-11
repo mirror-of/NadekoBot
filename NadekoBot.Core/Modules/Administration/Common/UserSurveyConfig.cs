@@ -84,9 +84,6 @@ namespace NadekoBot.Modules.Administration.Common
 
         [JsonProperty("unactionedEmbedColor")]
         public uint UnactionedEmbedColor { get; set; }
-
-        [JsonProperty("actionedEmbedTitle")]
-        public string ActionedEmbedTitle { get; set; }
         [JsonProperty("unActionedEmbedTitle")]
         public string UnActionedEmbedTitle { get; set; }
 
