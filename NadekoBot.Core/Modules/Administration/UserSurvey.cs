@@ -68,6 +68,9 @@ namespace NadekoBot.Core.Modules.Administration
 
         private Task ClientOnMessageReceived(SocketMessage msg)
         {
+            if (msg.Author.IsBot)
+                return Task.CompletedTask;
+            
             if (_reasonCompletionSources.TryRemove(msg.Channel.Id, out var source))
             {
                 _ = Task.Run(() => source.SetResult(msg.Content));
