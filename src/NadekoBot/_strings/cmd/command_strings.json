@@ -3477,5 +3477,13 @@
     "usage": [
       "{0}economy"
     ]
+  },
+  "rotaterolecolor": {
+    "cmd": "rotaterolecolor rrc",
+    "desc": "Starts role color rotation. Specify a role, followed by interval in seconds after which that role's color should change, followed by a list of of color hexes. Provide only role name to disable rotation for that role.",
+    "usage": [
+      "{0}rrc rgbrole",
+      "{0}rrc rgbrole 60 #ff0000 #00ff00 #0000ff"
+    ]
   }
 }
