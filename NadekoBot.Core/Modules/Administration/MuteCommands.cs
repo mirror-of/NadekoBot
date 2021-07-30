@@ -63,7 +63,7 @@ namespace NadekoBot.Modules.Administration
                     if (!await VerifyMutePermissions((IGuildUser)ctx.User, target))
                         return;
                     
-                    await _service.MuteUser(target, ctx.User).ConfigureAwait(false);
+                    await _service.TimedMute(target, ctx.User, TimeSpan.FromHours(1)).ConfigureAwait(false);
                     await ReplyConfirmLocalizedAsync("user_muted", Format.Bold(target.ToString())).ConfigureAwait(false);
                 }
                 catch (Exception ex)
