@@ -4,7 +4,7 @@
 
 This document aims to guide you through the process of creating a Discord account for your bot (the Discord Bot application), and inviting that account into your Discord server.
 
-![img2](https://i.imgur.com/Vxxeh2n.gif)
+![img2](https://i.imgur.com/9FgPIxd.gif)
 
 - Go to [the Discord developer application page][DiscordApp].
 - Log in with your Discord account.
@@ -16,18 +16,16 @@ This document aims to guide you through the process of creating a Discord accoun
 - Scroll down to the `Privileged Gateway Intents` section and enable both intents.
 These are required for a number of features to function properly, and should both be on.
 
-![img3](https://i.imgur.com/iuq2901.gif)
-
 ## Inviting your bot to your server
 
-![img4](https://i.imgur.com/6beUSa5.gif)
+![img4](https://i.imgur.com/9Nr37pI.gif)
 
-- On the **General Information** tab, copy your `Client ID` from your [applications page][DiscordApp].
-- Replace the **`12345678`** in this link:
-  `https://discordapp.com/oauth2/authorize?client_id=`**`12345678`**`&scope=bot&permissions=66186303` with your `Client ID`.
-- The link should now look like this:
-  `https://discordapp.com/oauth2/authorize?client_id=`**`YOUR_CLIENT_ID_HERE`**`&scope=bot&permissions=66186303`
-- Access that newly created link, pick your Discord server, click `Authorize` and confirm with the captcha at the end.
+- Go to the **0Auth2** tab on the left.
+- Check the `bot` option under **scopes**.
+- Scroll down and check the `Administrator` option.
+- Click the `copy` button.
+- Paste link into a new tab.
+- Pick your Discord server, click `continue` then `Authorize` and confirm with the captcha at the end.
 - The bot should have been added to your server.
 
 [Google Console]: https://console.developers.google.com
