@@ -22,7 +22,7 @@
 
 - Open Terminal (if you don't know how to, click on the magnifying glass on the top right corner of your screen and type **Terminal** on the window that pops up).  
 - Copy and paste this command, then press Enter:  
-`/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
+`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)""`
 
 
 #### Installing the prerequisites
