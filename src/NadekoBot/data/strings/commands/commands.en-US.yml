@@ -1419,10 +1419,11 @@ antispamignore:
   args:
     - ""
 eventstart:
-  desc: "Starts one of the events seen on public nadeko. Events: `reaction`, `gamestatus`"
+  desc: "Starts one of the events seen on public nadeko. Events: `reaction`, `gamestatus`, `gambling`"
   args:
     - "reaction"
     - "reaction -d 1 -a 50 --pot-size 1500"
+    - "gambling -d 24 -r 500 250 100"
 slotstats:
   desc: "Shows the total stats of the slot command for this bot's session."
   args:

@@ -1,4 +1,7 @@
-﻿using CommandLine;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using CommandLine;
 using NadekoBot.Common;
 
 namespace NadekoBot.Modules.Gambling.Common.Events
@@ -7,13 +10,17 @@ namespace NadekoBot.Modules.Gambling.Common.Events
     {
         [Option('a', "amount", Required = false, Default = 100, HelpText = "Amount of currency each user receives.")]
         public long Amount { get; set; } = 100;
+        
         [Option('p', "pot-size", Required = false, Default = 0, HelpText = "The maximum amount of currency that can be rewarded. 0 means no limit.")]
         public long PotSize { get; set; } = 0;
+        
         //[Option('t', "type", Required = false, Default = "reaction", HelpText = "Type of the event. reaction, gamestatus or joinserver.")]
         //public string TypeString { get; set; } = "reaction";
         [Option('d', "duration", Required = false, Default = 24, HelpText = "Number of hours the event should run for. Default 24.")]
         public int Hours { get; set; } = 24;
 
+        [Option('r', "rewards", Required = true, HelpText = "Amount of currency rewarded to winners in order (only available for gambling event)")]
+        public IEnumerable<long> Rewards { get; set; }
 
         public void NormalizeOptions()
         {
@@ -25,6 +32,9 @@ namespace NadekoBot.Modules.Gambling.Common.Events
                 Hours = 24;
             if (PotSize != 0 && PotSize < Amount)
                 PotSize = 0;
+            
+            if (Rewards.Any(x => x <= 0))
+                Rewards = Array.Empty<long>();
         }
     }
 }

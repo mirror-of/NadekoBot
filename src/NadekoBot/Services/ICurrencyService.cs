@@ -1,4 +1,5 @@
-﻿using Discord;
+﻿using System;
+using Discord;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -6,6 +7,8 @@ namespace NadekoBot.Services
 {
     public interface ICurrencyService
     {
+        public event Func<ulong, string, long, Task> OnUserGamble;
+        
         Task AddAsync(ulong userId, string reason, long amount, bool gamble = false);
         Task AddAsync(IUser user, string reason, long amount, bool sendMessage = false, bool gamble = false);
         Task AddBulkAsync(IEnumerable<ulong> userIds, IEnumerable<string> reasons, IEnumerable<long> amounts,  bool gamble = false);

@@ -8,6 +8,7 @@ namespace NadekoBot.Services.Database.Models
         {
             Reaction,
             GameStatus,
+            Gambling,
             //NotRaid,
         }
 

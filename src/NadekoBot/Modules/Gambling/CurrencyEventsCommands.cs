@@ -20,7 +20,7 @@ namespace NadekoBot.Modules.Gambling
             public CurrencyEventsCommands(GamblingConfigService gamblingConf) : base(gamblingConf)
             {
             }
-
+            
             [NadekoCommand, Aliases]
             [RequireContext(ContextType.Guild)]
             [NadekoOptionsAttribute(typeof(EventOptions))]

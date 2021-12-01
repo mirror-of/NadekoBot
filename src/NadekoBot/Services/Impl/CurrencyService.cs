@@ -19,6 +19,8 @@ namespace NadekoBot.Services
         private readonly IEmbedBuilderService _eb;
         private readonly IUser _bot;
 
+        public event Func<ulong, string, long, Task> OnUserGamble = delegate { return Task.CompletedTask;  };
+
         public CurrencyService(DbService db, DiscordSocketClient c, GamblingConfigService gss, IEmbedBuilderService eb)
         {
             _db = db;
@@ -49,6 +51,7 @@ namespace NadekoBot.Services
                     var t2 = GetCurrencyTransaction(_bot.Id, reason, -amount);
                     uow.CurrencyTransactions.Add(t2);
                     uow.TryUpdateCurrencyState(_bot.Id, _bot.Username, _bot.Discriminator, _bot.AvatarId, -amount, true);
+                    _ = OnUserGamble(userId, userName + "#" + discrim, amount);
                 }
             }
             return result;
