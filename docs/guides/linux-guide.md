@@ -13,7 +13,7 @@ Open Terminal (if you're on an installation with a window manager) and navigate 
 1. Download and run the **new** installer script `cd ~ && wget -N https://gitlab.com/Kwoth/nadeko-bash-installer/-/raw/master/linuxAIO.sh && bash linuxAIO.sh`
 2. Install prerequisites (type `1` and press enter)
 3. Download the bot (type `2` and press enter)
-4. Exit the installer in order to set up your `creds.yml` 
+4. Exit the installer (type `5` and press enter)
 5. Copy the creds.yml template `cp nadekobot/output/creds_example.yml nadekobot/output/creds.yml` 
 6. Open `nadekobot/output/creds.yml` with your favorite text editor. We will use nano here
     - `nano nadekobot/output/creds.yml`
