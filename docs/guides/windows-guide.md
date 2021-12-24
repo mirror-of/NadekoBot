@@ -83,8 +83,8 @@ Open PowerShell (press windows button on your keyboard and type powershell, it s
 1. `git clone https://gitlab.com/kwoth/nadekobot -b v3 --depth 1`
 2. `cd nadekobot`
 3. `dotnet publish -c Release -o output/ src/NadekoBot/`
-4. `cd output'
-5. 'cp creds_example.yml creds.yml`
+4. `cd output`
+5. `cp creds_example.yml creds.yml`
 6. Open `creds.yml` with your favorite text editor (Please don't use Notepad or WordPad. You can use Notepad++, VSCode, Atom, Sublime, or something similar)
 7. [Enter your bot's token](#creds-guide)
 8. Run the bot `dotnet NadekoBot.dll` 
