@@ -174,6 +174,7 @@ namespace NadekoBot
                     .AddSingleton(this)
                     .AddSingleton(uow)
                     .AddSingleton(Cache)
+                    .AddSingleton<IVoteRewardService, ManualWebhookVoteRewardService>()
                     .AddMemoryCache();
 
                 s.AddHttpClient();
@@ -317,6 +318,7 @@ namespace NadekoBot
 
             var stats = Services.GetService<IStatsService>();
             stats.Initialize();
+            var voteRewards = Services.GetService<IVoteRewardService>();
             var commandHandler = Services.GetService<CommandHandler>();
             var CommandService = Services.GetService<CommandService>();
 
