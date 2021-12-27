@@ -117,6 +117,7 @@ namespace NadekoBot.Core.Services
                 return;
             }
 
+            _log.Info("{UserId} voted/bumped your bot. Sending reward", userId);
             await _cs.AddAsync(userId, "voting-reward", data.AmountPerVote, false);
         }
 
