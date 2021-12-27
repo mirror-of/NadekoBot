@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Discord;
 using Discord.WebSocket;
 using NadekoBot.Core.Services.Impl;
 using NadekoBot.Extensions;
@@ -37,6 +39,8 @@ namespace NadekoBot.Core.Services
         private readonly JsonSerializerOptions _serializer;
 
         private const string DATA_PATH = "data/vote_rewards.json";
+
+        private readonly Regex _userMentionRegex = new Regex(@"\<\@\!?(?<id>\d+)\>", RegexOptions.Compiled);
 
         public ManualWebhookVoteRewardService(
             DiscordSocketClient client,
@@ -96,20 +100,24 @@ namespace NadekoBot.Core.Services
             if (!msg.Author.IsWebhook || !data.WebhookIds.Contains(msg.Author.Id))
                 return;
 
-            var user = msg.MentionedUsers.FirstOrDefault();
-            if (user is null)
+            var desc = msg.Embeds?.FirstOrDefault()?.Description;
+            if (desc is null)
+                return;
+
+            var match = _userMentionRegex.Match(desc);
+            if (!match.Groups["id"].Success || !ulong.TryParse(match.Groups["id"].Value, out var userId))
             {
                 _log.Warn("No mentioned users in the webhook message");
                 return;
             }
 
-            if (!TryAddCooldown(user.Id))
+            if (!TryAddCooldown(userId))
             {
-                _log.Warn("User {UserId} was already rewarded recently", user.Id);
+                _log.Warn("User {UserId} was already rewarded recently", userId);
                 return;
             }
 
-            await _cs.AddAsync(user.Id, "voting-reward", data.AmountPerVote, false);
+            await _cs.AddAsync(userId, "voting-reward", data.AmountPerVote, false);
         }
 
         private bool TryAddCooldown(ulong userId)
