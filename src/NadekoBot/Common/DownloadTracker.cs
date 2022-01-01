@@ -19,7 +19,7 @@ namespace NadekoBot.Common
         /// <returns>Task representing download state</returns>
         public async Task EnsureUsersDownloadedAsync(IGuild guild)
         {
-#if !GLOBAL_NADEKO
+#if GLOBAL_NADEKO
             return;
 #endif
             await downloadUsersSemaphore.WaitAsync();
