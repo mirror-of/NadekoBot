@@ -11,6 +11,9 @@ This part is completely optional, **however it's necessary for music and a few o
         - Under the `YouTube APIs` section
             - Select `YouTube Data API v3`,
             - Click enable.
+        - Search for `Custom Search API`
+            - Select `Custom Search API`,
+            - Click enable.
         - Open up the `Navigation menu` on the top right with the three lines.
         - select `APIs & Services`, then select `Credentials`,
             - Click `Create Credentials` button,
@@ -21,7 +24,7 @@ This part is completely optional, **however it's necessary for music and a few o
         - Open up `creds.yml` and look for `GoogleAPIKey`, paste your API key after the `:`.
         - It should look like this:
         ```yml
-        GoogleApiKey: "AIzaSyDSci1sdlWQOWNVj1vlXxxxxxbk0oWMEzM"
+        GoogleApiKey:"AIzaSyDSci1sdlWQOWNVj1vlXxxxxxbk0oWMEzM
         ```
 - **MashapeKey**
     - Required for Hearthstone cards.
