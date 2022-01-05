@@ -1,4 +1,4 @@
-﻿using Google;
+using Google;
 using Google.Apis.Customsearch.v1;
 using Google.Apis.Services;
 using Google.Apis.Urlshortener.v1;
@@ -220,6 +220,7 @@ namespace NadekoBot.Services
             req.Fields = "items(image(contextLink,thumbnailLink),link)";
             req.SearchType = CseResource.ListRequest.SearchTypeEnum.Image;
             req.Start = new NadekoRandom().Next(0, 20);
+            req.Safe = CseResource.ListRequest.SafeEnum.Active;
 
             var search = await req.ExecuteAsync().ConfigureAwait(false);
 
