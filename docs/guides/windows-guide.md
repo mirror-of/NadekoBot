@@ -69,6 +69,8 @@ You can still install them manually:
 
 ### Windows From Source
 
+⚠ IF YOU ARE FOLLOWING THE GUIDE ABOVE, IGNORE THIS SECTION ⚠ 
+
 ##### Prerequisites
 
 **Install these before proceeding or your bot will not work!**
