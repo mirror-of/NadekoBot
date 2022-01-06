@@ -104,7 +104,8 @@ namespace NadekoBot.Modules.Games.Hangman
                     CurrentPhase = Phase.Ended;
                     return GetState(GuessResult.Win);
                 }
-
+                
+                _correct.Add(charGuess);
                 return GetState(GuessResult.Guess);
             }
 
