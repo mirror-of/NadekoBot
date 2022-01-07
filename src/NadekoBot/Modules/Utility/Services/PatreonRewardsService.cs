@@ -4,7 +4,9 @@ using NadekoBot.Services.Database.Models;
 using NadekoBot.Modules.Utility.Common.Patreon;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json.Serialization;
@@ -146,15 +148,22 @@ namespace NadekoBot.Modules.Utility.Services
             if (DateTime.UtcNow.Day < 5)
                 return;
 
-            // if the user has the necessary patreon creds
-            // and the access token expired or doesn't exist
-            // -> update access token
-            if (!HasPatreonCreds(creds))
+            if (string.IsNullOrWhiteSpace(creds.Patreon.CampaignId))
                 return;
 
-            if (LastAccessTokenUpdate(creds).Month < DateTime.UtcNow.Month
+            var lastUpdate = LastAccessTokenUpdate(creds);
+            var now = DateTime.UtcNow;
+            
+            if (lastUpdate.Year != now.Year
+                || lastUpdate.Month != now.Month
                 || string.IsNullOrWhiteSpace(creds.Patreon.AccessToken))
             {
+                // if the user has the necessary patreon creds
+                // and the access token expired or doesn't exist
+                // -> update access token
+                if (!HasPatreonCreds(creds))
+                    return;
+                
                 var success = await UpdateAccessToken(creds);
                 if (!success)
                     return;
@@ -164,7 +173,7 @@ namespace NadekoBot.Modules.Utility.Services
             await getPledgesLocker.WaitAsync().ConfigureAwait(false);
             try
             {
-                
+
                 var members = new List<PatreonMember>();
                 var users = new List<PatreonUser>();
                 using (var http = _httpFactory.CreateClient())
@@ -185,7 +194,7 @@ namespace NadekoBot.Modules.Utility.Services
 
                         if (data is null)
                             break;
-                        
+
                         members.AddRange(data.Data);
                         users.AddRange(data.Included);
                     } while (!string.IsNullOrWhiteSpace(page = data?.Links?.Next));
@@ -209,11 +218,18 @@ namespace NadekoBot.Modules.Utility.Services
                         EntitledTo: > 0
                     })
                     .ToList();
+                
 
                 foreach (var pledge in userData)
                 {
                     await ClaimReward(pledge.UserId, pledge.PatreonUserId, pledge.EntitledTo);
                 }
+            }
+            catch (HttpRequestException ex) when (ex.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                Log.Warning("Patreon credentials invalid or expired. I will try to refresh them during the next run");
+                var db = _redis.GetDatabase();
+                await db.KeyDeleteAsync($"{creds.RedisKey()}_patreon_update");
             }
             catch (Exception ex)
             {
@@ -223,7 +239,6 @@ namespace NadekoBot.Modules.Utility.Services
             {
                 getPledgesLocker.Release();
             }
-
         }
 
         public async Task<int> ClaimReward(ulong userId, string patreonUserId, int cents)
