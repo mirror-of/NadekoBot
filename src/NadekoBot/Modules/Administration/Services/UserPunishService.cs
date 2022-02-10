@@ -63,27 +63,29 @@ namespace NadekoBot.Modules.Administration.Services
                 Weight = weight,
             };
 
-            int warnings = 1;
+            long previousCount;
             List<WarningPunishment> ps;
             using (var uow = _db.GetDbContext())
             {
                 ps = uow.GuildConfigsForId(guildId, set => set.Include(x => x.WarnPunishments))
                     .WarnPunishments;
 
-                warnings += uow
-                    .Warnings
-                    .ForId(guildId, userId)
-                    .Where(w => !w.Forgiven && w.UserId == userId)
-                    .Sum(x => x.Weight);
+                previousCount = uow.Warnings.ForId(guildId, userId)
+                                .Where(w => !w.Forgiven && w.UserId == userId)
+                                .Sum(x => x.Weight);
 
                 uow.Warnings.Add(warn);
 
-                uow.SaveChanges();
+                await uow.SaveChangesAsync();
             }
 
-            var p = ps.FirstOrDefault(x => x.Count == warnings);
+            var totalCount = previousCount + weight;
+            var p = ps.Where(x => x.Count > previousCount && x.Count <= totalCount)
+                    .OrderByDescending(x => x.Count)
+                    .FirstOrDefault();
 
-            if (p != null)
+            
+            if (p is not null)
             {
                 var user = await guild.GetUserAsync(userId).ConfigureAwait(false);
                 if (user is null)
