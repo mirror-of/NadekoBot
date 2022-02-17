@@ -38,7 +38,7 @@
     "greetdmmsg_new": "Pesan baru untuk selamat datang melalui Pesan Langsung telah diatur.",
     "greetdm_off": "Pesan selamat datang melalui Pesan Langsung dinonaktifkan.",
     "greetdm_on": "Pesan selamat datang melalui Pesan Langsung diaktifkan.",
-    "greetmsg_cur": "Pesan selamat datang saat ini",
+    "greetmsg_cur": "Pesan selamat datang saat ini: {0}",
     "greetmsg_enable": "Aktifkan pesan selamat datang dengan mengetik {0}",
     "greetmsg_new": "Pesan selamat datang baru telah diatur.",
     "greet_off": "Pemberitahuan selamat datang dinonaktifkan.",
