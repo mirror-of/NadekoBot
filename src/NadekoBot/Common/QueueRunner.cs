@@ -33,7 +33,7 @@ public sealed class QueueRunner
         };
     }
 
-    public async Task RunAsync(CancellationToken cancel = default)
+    public async Task RunAs1ync(CancellationToken cancel = default)
     {
         while (true)
         {
@@ -57,6 +57,6 @@ public sealed class QueueRunner
         }
     }
     
-    public ValueTask Enqueue(Func<Task> action)
+    public ValueTask EnqueueAsync(Func<Task> action)
         => _channel.Writer.WriteAsync(action);
 }
