@@ -33,7 +33,7 @@ public sealed class QueueRunner
         };
     }
 
-    public async Task RunAs1ync(CancellationToken cancel = default)
+    public async Task RunAsync(CancellationToken cancel = default)
     {
         while (true)
         {
