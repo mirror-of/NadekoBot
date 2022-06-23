@@ -123,7 +123,7 @@ public sealed class MusicPlayer : IMusicPlayer
 
                 var streamUrl = await track.GetStreamUrl();
                 // start up the data source
-                using var source = FfmpegTrackDataSource.CreateAsync(
+                using var source = new NaudioTrackDataSource(
                     _vc.BitDepth,
                     streamUrl,
                     track.Platform == MusicPlatform.Local);

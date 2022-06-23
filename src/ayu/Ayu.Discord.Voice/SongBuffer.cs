@@ -3,6 +3,9 @@ using System;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using CSCore;
+using CSCore.Codecs;
+using CSCore.Streams.SampleConverter;
 
 namespace Ayu.Discord.Voice
 {
@@ -19,6 +22,48 @@ namespace Ayu.Discord.Voice
         public int Read(byte[] output);
     }
 
+    public sealed class NaudioTrackDataSource : ITrackDataSource, IDisposable
+    {
+        private IWaveSource _converter;
+        private IWaveSource _audioFile;
+        public int BitDepth { get; }
+        public string StreamUrl { get; }
+        public bool IsLocal { get; }
+
+        public NaudioTrackDataSource(int bitDepth, string streamUrl, bool isLocal)
+        {
+            BitDepth = bitDepth;
+            StreamUrl = streamUrl;
+            IsLocal = isLocal;
+
+            _ = StartAsync();
+        }
+
+        private async Task StartAsync()
+        {
+            _audioFile = CodecFactory.Instance.GetCodec(new Uri(StreamUrl));
+            var sampleSource = _audioFile
+                .ToSampleSource();
+
+            if (BitDepth == 16)
+                _converter = new SampleToPcm16(sampleSource)
+                    .ChangeSampleRate(48000);
+            else
+                _converter = new SampleToIeeeFloat32(sampleSource)
+                    .ChangeSampleRate(48000);
+
+        }
+
+        public int Read(byte[] output)
+            => _converter.Read(output, 0, output.Length);
+
+        public void Dispose()
+        {
+            _converter?.Dispose();
+            _audioFile?.Dispose();
+        }
+    }
+    
     public sealed class FfmpegTrackDataSource : ITrackDataSource, IDisposable
     {
         private Process _p;
